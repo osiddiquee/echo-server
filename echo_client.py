@@ -28,8 +28,12 @@ def client(msg, log_buffer=sys.stderr):
         #
         #       Log each chunk you receive.  Use the print statement below to
         #       do it. This will help in debugging problems
-        chunk = sock.recv(16)
-        received_message += chunk
+        while True:
+            chunk = sock.recv(16)
+            received_message += chunk
+            if len(chunk) < 16:
+                break
+
         print('received "{0}"'.format(chunk.decode('utf8')), file=log_buffer)
     except Exception as e:
         import traceback
